@@ -53,6 +53,6 @@ import TheSidebar from './components/the-sidebar.vue';
   display: flex;
   align-items: center;
   padding-left: 12px;
-  box-shadow: 0 0 1px #888;
+  box-shadow: 0 0 1px var(--color-border);
 }
 </style>
