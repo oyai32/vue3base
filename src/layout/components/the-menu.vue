@@ -1,12 +1,6 @@
 <script lang="jsx">
 import { ref } from 'vue';
-import { defineComponent } from 'vue';
-import {
-  Document,
-  Menu as IconMenu,
-  Location,
-  Setting,
-} from '@element-plus/icons-vue';
+import { defineComponent, inject } from 'vue';
 
 export default defineComponent({
   setup() {
@@ -23,7 +17,7 @@ export default defineComponent({
       <ElMenuItem index={key}>
         {icon ? (
           <>
-            <ElIcon>{icon}</ElIcon>
+            <ElIcon> {icon()}</ElIcon>
             <span>{title}</span>
           </>
         ) : (
@@ -42,7 +36,7 @@ export default defineComponent({
                 if (item.icon) {
                   return (
                     <>
-                      <ElIcon>{item.icon}</ElIcon>
+                      <ElIcon>{item.icon()}</ElIcon>
                       <span>{item.title}</span>
                     </>
                   );
@@ -61,44 +55,7 @@ export default defineComponent({
       }
     };
 
-    const data = [
-      {
-        title: 'Navigator One',
-        icon: <Location />,
-        key: '1',
-        children: [
-          {
-            title: 'item two',
-            key: '1-2',
-          },
-          {
-            title: 'item two',
-            key: '1-3',
-          },
-          {
-            title: 'item four',
-            key: '1-4',
-            children: [
-              {
-                title: 'item one',
-                key: '1-4-1',
-              },
-            ],
-          },
-        ],
-      },
-      {
-        title: 'Navigator Two',
-        icon: <IconMenu />,
-        key: '2',
-      },
-      {
-        title: 'Navigator Four',
-        icon: <Setting />,
-        key: '4',
-      },
-    ];
-
+    const data = inject('menus', []);
     return () => (
       <ElMenu
         defaultActive='2'

@@ -1,4 +1,5 @@
 import { createRouter, createWebHistory } from 'vue-router';
+import menus from './menu';
 const Layout = () => import("@/layout/index.vue");
 
 const routes = [
@@ -6,6 +7,10 @@ const routes = [
     path: '/',
     name: 'Layout',
     component: Layout,
+    props:{
+        menus,
+        collapse:false
+    },
     children: [
       { path: '/dashboard', component: () => import('@/views/dashboard.vue') },
       // { path: '/about', component: () => import('@/views/about.vue') },

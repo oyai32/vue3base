@@ -9,11 +9,13 @@
 </template>
 
 <script lang="ts" setup>
-import { ref } from 'vue';
+import { ref, inject} from 'vue';
 import Collapse from './collapse.vue';
 import TheMenu from './the-menu.vue';
 
-const isCollapse = ref(true);
+const defaultCollapse = inject('collapse', false);
+const isCollapse = ref(defaultCollapse);
+
 </script>
 
 <style lang="scss">

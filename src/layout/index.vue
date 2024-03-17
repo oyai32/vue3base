@@ -23,8 +23,22 @@
 </template>
 
 <script lang="ts" setup>
+import { provide } from 'vue';
+import { MenuList } from '@/constatns/types';
 import TheHeader from './components/the-header.vue';
 import TheSidebar from './components/the-sidebar.vue';
+
+interface Props {
+  menus: MenuList;
+  // 菜单默认是否展开
+  collapse: Boolean;
+}
+const {menus, collapse} = defineProps<Props>();
+
+provide('menus', menus);
+provide('collapse', collapse);
+
+
 </script>
 
 <style lang="scss" scoped>
