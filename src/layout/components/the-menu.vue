@@ -1,46 +1,6 @@
-<template>
-  <el-menu
-    default-active="2"
-    class="el-menu-vertical-demo"
-    :collapse="isCollapse"
-    @open="handleOpen"
-    @close="handleClose"
-  >
-    <el-sub-menu index="1">
-      <template #title>
-        <el-icon><location /></el-icon>
-        <span>Navigator One</span>
-      </template>
-      <el-menu-item-group>
-        <template #title><span>Group One</span></template>
-        <el-menu-item index="1-1">item one</el-menu-item>
-        <el-menu-item index="1-2">item two</el-menu-item>
-      </el-menu-item-group>
-      <el-menu-item-group title="Group Two">
-        <el-menu-item index="1-3">item three</el-menu-item>
-      </el-menu-item-group>
-      <el-sub-menu index="1-4">
-        <template #title><span>item four</span></template>
-        <el-menu-item index="1-4-1">item one</el-menu-item>
-      </el-sub-menu>
-    </el-sub-menu>
-    <el-menu-item index="2">
-      <el-icon><icon-menu /></el-icon>
-      <template #title>Navigator Two</template>
-    </el-menu-item>
-    <el-menu-item index="3" disabled>
-      <el-icon><document /></el-icon>
-      <template #title>Navigator Three</template>
-    </el-menu-item>
-    <el-menu-item index="4">
-      <el-icon><setting /></el-icon>
-      <template #title>Navigator Four</template>
-    </el-menu-item>
-  </el-menu>
-</template>
-
-<script lang="ts" setup>
+<script lang="jsx">
 import { ref } from 'vue';
+import { defineComponent } from 'vue';
 import {
   Document,
   Menu as IconMenu,
@@ -48,19 +8,112 @@ import {
   Setting,
 } from '@element-plus/icons-vue';
 
-interface Props {
-  isCollapse: boolean;
-}
-const props = withDefaults(defineProps<Props>(), {
-  isCollapse: true,
-});
+export default defineComponent({
+  setup() {
+    const isCollapse = ref(true);
+    const handleOpen = (key, keyPath) => {
+      console.log(key, keyPath);
+    };
 
-const handleOpen = (key: string, keyPath: string[]) => {
-  console.log(key, keyPath);
-};
-const handleClose = (key: string, keyPath: string[]) => {
-  console.log(key, keyPath);
-};
+    const handleClose = (key, keyPath) => {
+      console.log(key, keyPath);
+    };
+
+    const lastItem = ({ key, icon, title }) => (
+      <ElMenuItem index={key}>
+        {icon ? (
+          <>
+            <ElIcon>{icon}</ElIcon>
+            <span>{title}</span>
+          </>
+        ) : (
+          <>{title}</>
+        )}
+      </ElMenuItem>
+    );
+
+    const getItem = (item) => {
+      if (item.children) {
+        return (
+          <ElSubMenu
+            index={item.key}
+            v-slots={{
+              title: () => {
+                if (item.icon) {
+                  return (
+                    <>
+                      <ElIcon>{item.icon}</ElIcon>
+                      <span>{item.title}</span>
+                    </>
+                  );
+                }
+                return item.title;
+              },
+            }}
+          >
+            {item.children.map((child) => {
+              return getItem(child);
+            })}
+          </ElSubMenu>
+        );
+      } else {
+        return lastItem(item);
+      }
+    };
+
+    const data = [
+      {
+        title: 'Navigator One',
+        icon: <Location />,
+        key: '1',
+        children: [
+          {
+            title: 'item two',
+            key: '1-2',
+          },
+          {
+            title: 'item two',
+            key: '1-3',
+          },
+          {
+            title: 'item four',
+            key: '1-4',
+            children: [
+              {
+                title: 'item one',
+                key: '1-4-1',
+              },
+            ],
+          },
+        ],
+      },
+      {
+        title: 'Navigator Two',
+        icon: <IconMenu />,
+        key: '2',
+      },
+      {
+        title: 'Navigator Four',
+        icon: <Setting />,
+        key: '4',
+      },
+    ];
+
+    return () => (
+      <ElMenu
+        defaultActive='2'
+        class='el-menu-vertical-demo'
+        collapse={isCollapse.value}
+        onOpen={handleOpen}
+        onClose={handleClose}
+      >
+        {data.map((item) => {
+          return getItem(item);
+        })}
+      </ElMenu>
+    );
+  },
+});
 </script>
 
 <style lang="scss">
