@@ -3,4 +3,4 @@ import type { AxiosResponse } from 'axios'
 import http from './http'
 
 
-export const getUserInfo = (data:AxiosResponse) => http.post(`/getUserInfo`, data)
+export const getUserInfo = (data:any) => http.post(`/getUserInfo`, data)

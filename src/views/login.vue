@@ -55,8 +55,7 @@ const rules = reactive<FormRules<RuleForm>>({
 
 async function submitForm() {
   await ruleFormRef.value?.validate();
-  const res = await getUserInfo(ruleForm);
-  console.log(res)
+  await getUserInfo(ruleForm);
   router.push('/');
 }
 </script>
