@@ -1,3 +1,6 @@
-import { post } from './http'
+import type { AxiosResponse } from 'axios'
 
-export const getUserInfo = (data) => post(`/getUserInfo`, data)
+import http from './http'
+
+
+export const getUserInfo = (data:AxiosResponse) => http.post(`/getUserInfo`, data)

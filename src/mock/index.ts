@@ -4,6 +4,7 @@
  */
 import Mock from 'mockjs';
 
+const baseURL = '/mock';
 /**
  * 创建失败返回结果
  * 用于接口响应 200，但数据不符合预期的场景
@@ -20,7 +21,7 @@ function createErrorResult(type: String, message: String) {
   };
 }
 
-Mock.mock('/getUserInfo', 'post', function (options) {
+Mock.mock(`${baseURL}/getUserInfo`, 'post', function (options) {
   const { username } = JSON.parse(options.body);
   // 模拟登录成功与失败
   if (username === 'admin') {
