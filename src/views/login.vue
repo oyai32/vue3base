@@ -29,8 +29,12 @@
 </template>
 
 <script lang="ts" setup>
+import { useRouter } from "vue-router";
 import { ref, reactive } from 'vue';
+import { getUserInfo } from '@/services';
 import type { FormInstance, FormRules } from 'element-plus';
+
+const router = useRouter();
 
 interface RuleForm {
   username: string;
@@ -51,7 +55,9 @@ const rules = reactive<FormRules<RuleForm>>({
 
 async function submitForm() {
   await ruleFormRef.value?.validate();
-  console.log(ruleForm);
+  const res = await getUserInfo(ruleForm);
+  console.log(res)
+  router.push('/');
 }
 </script>
 
